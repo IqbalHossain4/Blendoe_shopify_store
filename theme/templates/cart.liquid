@@ -1,0 +1,60 @@
+<div class="containers my-24">
+  {% form 'cart', cart %}
+    <h1 class="md:text-[22px] font-[600] mb-8">Cart</h1>
+
+    {% if cart.empty? %}
+      <p>Hey YOur Cart is empty</p>
+    {% else %}
+      <table class="w-full container">
+        <thead>
+          <tr class="text-left">
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart.items %}
+            <tr class="text-left">
+              <td>
+                <div class="w-[60px] h-[60px] rounded-full">
+                  <img src="{{ item.image | image_url}}" class="w-full h-full rounded-full" />
+                </div>
+              </td>
+              <td>
+                <h2>{{ item.title }}</h2>
+              </td>
+              <td>
+                <p>{{ item.final_line_price | money }}</p>
+              </td>
+              <td>
+                <p>{{ item.quantity }}</p>
+              </td>
+              <td>
+                <a href="{{ item.url_to_remove }}" class="bg-red-500 py-1 px-2 text-black rounded-full">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <br>
+      <div class="mt-16">
+        <hr>
+        <p class="text-md mt-2 font-[400] text-black ">Total: {{ cart.total_price | money }}</p>
+        <button
+          type="submit"
+          name="update"
+          class="text-md px-4 mt-4 py-2 font-[500] bg-[#333] text-white my-2 rounded">Update</button>
+      </div>
+
+      <button
+        type="submit"
+        name="checkout"
+        class="w-full py-2  mt-2 bg-[#FFD700] text-black text-lg font-[600] rounded">Checkout</button>
+    {% endif %}
+  {% endform %}
+</div>

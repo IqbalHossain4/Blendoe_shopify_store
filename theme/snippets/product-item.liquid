@@ -1,0 +1,45 @@
+<div>
+  <div class="w-full h-[350px]">
+    <img
+      class="w-[100%] h-[100%]"
+      src="{{ product.featured_image | image_url }}"
+      alt="">
+  </div>
+  <a href="{{ product.url }}">
+    <h1 class="text-[18px] font-[600] text-black hover:text-[blue] mt-4">{{ product.title }}</h1>
+  </a>
+  <p class="mt-2 mb-4">{{ product.price | money }}</p>
+
+  <!-- Add to Cart Button with JavaScript -->
+  <button onclick="addToCart('{{ product.variants.first.id }}')" class="w-full bg-black text-white py-3 rounded-lg mt-2">Add to Cart</button>
+</div>
+
+<script>
+
+  function decreaseQuantity(productID) {
+    const quantityInput = document.getElementById(`quantityInput${productID}`);
+    let currentQuantity = parseInt(quantityInput.value);
+    if (currentQuantity > 1) {
+      currentQuantity--;
+      quantityInput.value = currentQuantity;
+    }
+  }
+
+  function increaseQuantity(productID) {
+    const quantityInput = document.getElementById(`quantityInput${productID}`);
+    let currentQuantity = parseInt(quantityInput.value);
+    currentQuantity++;
+    quantityInput.value = currentQuantity;
+  }
+
+  function addToCart(productID) {
+    const quantityInputs = document.querySelectorAll('[id^="quantityInput"]');
+    let totalQuantity = 0;
+    quantityInputs.forEach(input => {
+      totalQuantity += parseInt(input.value);
+    });
+    Shopify.addItem(productID, totalQuantity, function() {
+      window.location.href = '/cart';
+    });
+  }
+</script>

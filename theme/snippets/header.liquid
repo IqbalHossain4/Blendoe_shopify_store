@@ -1,0 +1,28 @@
+<header class="bg-[#333]">
+  <div class="containers text-white  flex_1  py-4 ">
+    <h1 class="text-2xl text-[#FFD700] font-[600]">{{ shop.name }}</h1>
+    <ul class="flex_2">
+      {% for link in linklists.main-menu.links -%}
+        <li class="text-[18px] font-[400]">
+          {{ link.title | link_to: link.url }}</li>
+      {%- endfor %}
+    </ul>
+
+    <div class="flex items-center gap-8">
+      <form action="/search">
+        <input
+          type="search"
+          name="q"
+          placeholder="Search"
+          class="bg-[#444] ps-4 outline-none py-1 rounded-s text-black">
+        <button type="submit" class="bg-[#FFD700] text-black font-[600] ms-[-2%] py-1 px-3  rounded-e ">Search</button>
+      </form>
+
+      <div onclick="handleCart()" class="text-[22px] cursor-pointer relative">
+        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+        <p class="absolute top-[-2%] right-[-35%] text-[12px] w-[15px] h-[15px] text-black rounded-full bg-[#FFD700] flex items-center justify-center">{{ cart.items | size }}</p>
+      </div>
+
+    </div>
+  </div>
+</header>

@@ -1,0 +1,16 @@
+{% paginate collections['productCollection'].products by 6 %}
+
+  <div class="containers my-24">
+    <h2 class="md:text-[22px] font-[600] mb-8">{{ collections['productCollection'].title }}</h2>
+
+    <div class="grid_1">
+      {% for product in collections['productCollection'].products %}
+
+        {% render 'product-item', product: product %}
+      {% endfor %}
+    </div>
+    <div class="w-full text-center pagination">
+      {{ paginate | default_pagination }}
+    </div>
+  </div>
+{% endpaginate %}

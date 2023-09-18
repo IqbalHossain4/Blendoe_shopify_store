@@ -1,0 +1,107 @@
+const updateCartDrawer=async()=>{
+    const res =await fetch('/?section_id=cart-drawer');
+    const text=await res.text();
+    const newData=document.createElement('div');
+    newData.innerHTML=text
+    const newBox= newData.querySelector(".cart-drawer").innerHTML
+    document.querySelector('.cart-drawer').innerHTML=newBox
+
+}
+
+const handleCart =()=>{
+    document.querySelector('.cart-drawer').classList.add("cart-drawer-active")
+}
+
+const handleCartClose=()=>{
+    document.querySelector('.cart-drawer').classList.remove("cart-drawer-active")
+}
+
+// cart Quantity
+
+function decreaseProductQuantity(event, lineItemKey) {
+    event.preventDefault()
+    const quantityInput = document.getElementById(`quantityInput${lineItemKey}`);
+    const currentQuantity = parseInt(quantityInput.value);
+
+    if (currentQuantity > 1) {
+      quantityInput.value = currentQuantity - 1;
+      updateCart(lineItemKey, currentQuantity - 1); // 
+    }
+  }
+
+  function increaseProductQuantity(event, lineItemKey) {
+    event.preventDefault()
+    const quantityInput = document.getElementById(`quantityInput${lineItemKey}`);
+    const currentQuantity = parseInt(quantityInput.value);
+
+    quantityInput.value = currentQuantity + 1;
+    updateCart(lineItemKey, currentQuantity + 1);
+  }
+
+
+  function updateCart(lineItemKey, newQuantity) {
+    const cartUpdateUrl = '/cart/change.js';
+    const cartPayload = {
+      line: lineItemKey,
+      quantity: newQuantity
+    };
+    fetch(cartUpdateUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(cartPayload)
+    }).then(response => response.json()).then(data => {
+      console.log('Cart updated successfully:', data);
+    })
+  }
+
+
+
+
+// Manage Product
+
+let currentQuantity = 1;
+
+  function decreaseQuantity(variantId) {
+    const quantityInput = document.getElementById(`quantityInput${variantId}`);
+    let currentQuantity = parseInt(quantityInput.value);
+
+    if (currentQuantity > 1) {
+      currentQuantity--;
+      quantityInput.value = currentQuantity;
+    }
+  }
+
+  function increaseQuantity(variantId) {
+    const quantityInput = document.getElementById(`quantityInput${variantId}`);
+    let currentQuantity = parseInt(quantityInput.value);
+
+    currentQuantity++;
+    quantityInput.value = currentQuantity;
+  }
+
+  function addToCart(variantId) {
+    const cartUrl = '/cart/add.js';
+    const cartPayload = {
+      items: [
+        {
+          id: variantId,
+          quantity: currentQuantity
+        }
+      ]
+    };
+
+    fetch(cartUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(cartPayload)
+    }).then(response => response.json()).then(data => {
+      updateCartDrawer()
+    })
+  }
+
