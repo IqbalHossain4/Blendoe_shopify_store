@@ -8,10 +8,11 @@
     {% if cart.empty? %}
       <p class="text-white">Your Cart is empty</p>
     {% else %}
+
       <div class="flex flex-col gap-4 my-12">
         {% for item in cart.items %}
-          <div class="flex items-center gap-4 form-container  text-black rounded-md" data-line-item-key="{{ item.key }}">
-            <div class="md:w-[120px] h-[120px]">
+          <div class="md:flex items-center gap-4 form-container  text-black rounded-md" data-line-item-key="{{ item.key }}">
+            <div class="md:block hidden md:w-[120px] md:h-[120px]">
               <img
                 class="rounded-s-md w-full h-full"
                 src="{{ item.image | img_url }}"
@@ -19,11 +20,11 @@
             </div>
 
             <div class="w-full flex items-start justify-between">
-              <div class="w-1/2">
+              <div class="w-1/2 md:ps-0 ps-4">
                 <h3 class="text-md font-[600] text-black">{{ item.product.title }}</h3>
                 <p class="text-xs text-gray-400 my-1">{{ item.variant.title }}</p>
 
-                <div class="w-[120px] flex items-center justify-center gap-2 text-[14px] font-[600] border">
+                <div class="md:w-[120px] flex items-center justify-center gap-2 text-[14px] font-[600] border">
                   <button class="text-[24px] border-e-2 pe-3" onclick="decreaseProductQuantity(event,'{{ item.key }}')">-</button>
                   <input
                     id="quantityInput{{ item.key }}"
@@ -56,11 +57,8 @@
           name="checkout">Checkout</button>
       </div>
     </form>
-    <button onclick="handleCartClose()" class="absolute top-0 right-1 text-[30px] text-red-500 rounded-full">
+    <button onclick="handleCartClose()" class="absolute top-0 right-1 text-[30px] text-red-500 rounded-full ">
       <i class="fa fa-times-circle" aria-hidden="true"></i>
     </button>
   {% endif %}
-
-
-
 </div>

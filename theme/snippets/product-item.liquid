@@ -13,33 +13,3 @@
   <!-- Add to Cart Button with JavaScript -->
   <button onclick="addToCart('{{ product.variants.first.id }}')" class="customBtn">Add to Cart</button>
 </div>
-
-<script>
-
-  function decreaseQuantity(productID) {
-    const quantityInput = document.getElementById(`quantityInput${productID}`);
-    let currentQuantity = parseInt(quantityInput.value);
-    if (currentQuantity > 1) {
-      currentQuantity--;
-      quantityInput.value = currentQuantity;
-    }
-  }
-
-  function increaseQuantity(productID) {
-    const quantityInput = document.getElementById(`quantityInput${productID}`);
-    let currentQuantity = parseInt(quantityInput.value);
-    currentQuantity++;
-    quantityInput.value = currentQuantity;
-  }
-
-  function addToCart(productID) {
-    const quantityInputs = document.querySelectorAll('[id^="quantityInput"]');
-    let totalQuantity = 0;
-    quantityInputs.forEach(input => {
-      totalQuantity += parseInt(input.value);
-    });
-    Shopify.addItem(productID, totalQuantity, function() {
-      window.location.href = '/cart';
-    });
-  }
-</script>

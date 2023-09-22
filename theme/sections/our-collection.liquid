@@ -1,54 +1,56 @@
-<div class="containers mt-16 mx-auto py-8">
-  <h2 class="md:text-[22px] text-[#1E2D7D] font-[600] mb-8">Our collections</h2>
-  <div class="flex space-x-4">
-    <div class="w-full relative overflow-hidden">
-      <div class="slider flex gap-4  transition-transform duration-300 ease-in-out ">
-        {% for product in collections.all.products limit: 6 %}
-          <div class="text-center">
-            <div class="slide w-[180px] h-[180px] p-4 flex items-center justify-center shadow  border border-gray-200 rounded-full duration-300 ease-in-out   hover:scale-110">
-              <a href="{{ product.url }}">
-                <div class="w-[100px] h-[100px] rounded-full">
-                  <img
-                    src="{{ product.featured_image.src | img_url: 'medium' }}"
-                    alt="{{ product.title }}"
-                    class="w-full h-full rounded-full">
-                </div>
+<div class="bg-black mt-16 pt-4 pb-8">
+  <div class="containers  mx-auto py-8 ">
+    <h2 class="md:text-[22px] text-white font-[600] mb-8">Our collections</h2>
+    <div class="flex space-x-4">
+      <div class="w-full relative overflow-hidden">
+        <div class="slider flex gap-4  transition-transform duration-300 ease-in-out ">
+          {% for product in collections.all.products limit: 6 %}
+            <div class="text-center">
+              <div class="slide w-[180px] h-[180px] p-4 flex items-center justify-center shadow  border border-gray-200 rounded-full duration-300 ease-in-out   hover:scale-110">
+                <a href="{{ product.url }}">
+                  <div class="w-[100px] h-[100px] rounded-full">
+                    <img
+                      src="{{ product.featured_image.src | img_url: 'medium' }}"
+                      alt="{{ product.title }}"
+                      class="w-full h-full rounded-full">
+                  </div>
 
-              </a>
+                </a>
+              </div>
+              <h3 class="mt-2 text-xs text-white font-semibold">{{ product.title }}</h3>
             </div>
-            <h3 class="mt-2 text-xs text-[#1E2D7D] font-semibold">{{ product.title }}</h3>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
+        <button class="prev-button absolute top-1/2 left-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:shadow-lg transition">&#8592;</button>
+        <button class="next-button absolute top-1/2 right-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:shadow-lg transition">&#8594;</button>
       </div>
-      <button class="prev-button absolute top-1/2 left-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:shadow-lg transition">&#8592;</button>
-      <button class="next-button absolute top-1/2 right-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:shadow-lg transition">&#8594;</button>
     </div>
   </div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const prevButton = document.querySelector(".prev-button");
+      const nextButton = document.querySelector(".next-button");
+      const slider = document.querySelector(".slider");
+
+      let currentSlide = 0;
+
+      function updateSlider() {
+        slider.style.transform = `translateX(-${
+          currentSlide * 100
+        }%)`;
+      }
+
+      prevButton.addEventListener("click", function() {
+        currentSlide = Math.max(0, currentSlide - 1);
+        updateSlider();
+      });
+
+      nextButton.addEventListener("click", function() {
+        currentSlide = Math.min(currentSlide + 1, 4);
+        updateSlider();
+      });
+    });
+  </script>
 </div>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const prevButton = document.querySelector(".prev-button");
-    const nextButton = document.querySelector(".next-button");
-    const slider = document.querySelector(".slider");
-
-    let currentSlide = 0;
-
-    function updateSlider() {
-      slider.style.transform = `translateX(-${
-        currentSlide * 100
-      }%)`;
-    }
-
-    prevButton.addEventListener("click", function() {
-      currentSlide = Math.max(0, currentSlide - 1);
-      updateSlider();
-    });
-
-    nextButton.addEventListener("click", function() {
-      currentSlide = Math.min(currentSlide + 1, 4);
-      updateSlider();
-    });
-  });
-</script>
