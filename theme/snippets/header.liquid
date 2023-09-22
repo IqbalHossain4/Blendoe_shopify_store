@@ -1,4 +1,4 @@
-<header class="bg-[#333]">
+<header class="bg-[black]">
   <div class="containers text-white  flex_1  py-4 ">
     <h1 class="text-2xl text-[#FFD700] font-[600]">{{ shop.name }}</h1>
     <ul class="flex_2">
@@ -9,20 +9,35 @@
     </ul>
 
     <div class="flex items-center gap-8">
-      <form action="/search">
-        <input
-          type="search"
-          name="q"
-          placeholder="Search"
-          class="bg-[#444] ps-4 outline-none py-1 rounded-s text-black">
-        <button type="submit" class="bg-[#FFD700] text-black font-[600] ms-[-2%] py-1 px-3  rounded-e ">Search</button>
+      <div id="search-icon" class="text-[22px] cursor-pointer">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+
+      <form
+        action="/search"
+        id="search-form"
+        style="display: none;">
+        <div class="relative">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search"
+            class="bg-[#333] ps-4 outline-none py-1 pr-[30px] rounded-s text-black">
+          <button type="submit" class="bg-[#FFD700] text-black font-[600] ms-[-2%] py-1 px-3  rounded-e ">Search</button>
+
+          <div
+            id="cancel-icon"
+            class="absolute top-[5px] right-[-4%] cursor-pointer"
+            style="display: none;">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </div>
+        </div>
       </form>
 
       <div onclick="handleCart()" class="text-[22px] cursor-pointer relative">
         <i class="fa fa-cart-plus" aria-hidden="true"></i>
         <p class="absolute top-[-2%] right-[-35%] text-[12px] w-[15px] h-[15px] text-black rounded-full bg-[#FFD700] flex items-center justify-center">{{ cart.items | size }}</p>
       </div>
-
     </div>
   </div>
 </header>

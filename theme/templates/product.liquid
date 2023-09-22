@@ -1,7 +1,7 @@
 <div class="containers my-24">
   <h1 class="md:text-[22px] font-[600] mb-8">Product Collection</h1>
 
-  <div class="flex items-start gap-16">
+  <div class="flex items-center gap-16">
     <div class="w-1/2 md:h-[500px]">
       <img
         src="{{ product.featured_image | image_url}}"
@@ -12,11 +12,11 @@
     <div class="w-1/2">
       <h2 class="text-[18px] font-[600] text-black mb-4">{{ product.title }}</h2>
       <p>{{ product.price | money }}</p>
-      <p>{{ product.description }}</p>
-      <span id="selectedQuantity">1</span>
+      <p class="my-2">{{ product.description }}</p>
+      <span id="selectedQuantity" class="hidden">1</span>
 
       {% form 'product', product %}
-        <select name="id">
+        <select name="id" class="mt-2">
           {% for variant in product.variants %}
             <option value={{ variant.id }}>
               {{ variant.title }}
@@ -24,7 +24,7 @@
           {% endfor %}
         </select>
 
-        <div class="w-[120px] flex items-center justify-center gap-2 text-[14px] font-[600] border">
+        <div class="w-[120px] flex items-center justify-center gap-2 text-[14px] font-[600] border mt-4">
           <button class="text-[24px] border-e-2 pe-3" onclick="decreaseProductQuantity(event,'{{ product.variants.first.id }}')">-</button>
           <input
             id="quantityInput{{ product.variants.first.id }}"
@@ -35,13 +35,18 @@
             class="w-[20px] outline-none border-none text-center">
           <button class="text-[24px] border-s-2 ps-3" onclick="increaseProductQuantity(event,'{{ product.variants.first.id }}')">+</button>
         </div>
-        <button onclick="addToCart(event,'{{ product.variants.first.id }}')" class="w-full bg-black text-white py-3 rounded-lg mt-2">Add to Cart</button>
+        <button onclick="addToCart(event,'{{ product.variants.first.id }}')" class="customBtn mt-4">Add to Cart</button>
       {% endform %}
     </div>
   </div>
 </div>
 
+<div class="mb-24">
+  {% section 'related-product' %}
+</div>
+
 <script>
+
   function increaseProductQuantity(event, variantId) {
     event.preventDefault()
     const quantityInput = document.getElementById(`quantityInput${variantId}`);
@@ -72,12 +77,8 @@
     const quantity = parseInt(quantityInput.value);
     const variantSelect = document.getElementById(`variantSelect${variantId}`);
     const selectedVariantId = variantSelect.value;
-
     fetch(`/cart/add.js?variant=${selectedVariantId}&quantity=${quantity}`, {method: 'POST'}).then(response => response.json()).then(data => {
       console.log('Product added to cart:', data);
-      alert('Product added to cart!');
-    }).catch(error => {
-      console.error('Error adding product to cart:', error);
-    });
+    })
   }
 </script>

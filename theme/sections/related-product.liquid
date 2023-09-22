@@ -1,0 +1,55 @@
+<div class="containers">
+  <div class="width">
+    <h2 class="md:text-[22px] font-[600] mb-8">May as you like</h2>
+
+    <div class="related-products grid_1"></div>
+
+  </div>
+</div>
+
+{% if cart.item_count > 0 %}
+  {% assign relatedId = cart.items[0].product_id %}
+{% else %}
+  {% assign relatedId = 46658723053864 %}
+{% endif %}
+
+<script>
+  const relatedId = {{ relatedId | json }};
+
+  function buildBlock(product) {
+    const html = `
+    
+  <div>
+  <div class="w-[300px] h-[300px]">
+    <img src="${
+      product.images[0]
+    }" class="w-full h-full" />
+
+  </div>
+  <a class="hover:text-blue-500" href="${
+      product.url
+    }">
+        <h3 class="text-xl font-[500]  my-4">${
+      product.title
+    }</h3>
+    </a>
+        <p>$ ${
+      product.price
+    }</p>
+  </div>
+      
+    `;
+    return html;
+  }
+
+  fetch(`${
+    window.Shopify.routes.root
+  }recommendations/products.json?product_id=${relatedId}&limit=3`).then((response) => response.json()).then(({products}) => {
+    products.forEach((product) => {
+      const html = buildBlock(product);
+      document.querySelector('.related-products').innerHTML += html;
+    });
+
+// console.log("hello", products);
+  });
+</script>

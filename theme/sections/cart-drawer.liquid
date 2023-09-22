@@ -1,5 +1,5 @@
 <div class="cart-drawer">
-  <h2 class="text-white">Your Cart ({{ cart.item_count }})</h2>
+  <h2 class="text-white">Your Cart ({{ cart.items | size }})</h2>
 
   <form
     action="{{ routes.cart_url }}"
@@ -10,7 +10,7 @@
     {% else %}
       <div class="flex flex-col gap-4 my-12">
         {% for item in cart.items %}
-          <div class="flex items-center gap-4 bg-[#444] text-white rounded-md" data-line-item-key="{{ item.key }}">
+          <div class="flex items-center gap-4 form-container  text-black rounded-md" data-line-item-key="{{ item.key }}">
             <div class="md:w-[120px] h-[120px]">
               <img
                 class="rounded-s-md w-full h-full"
@@ -20,7 +20,7 @@
 
             <div class="w-full flex items-start justify-between">
               <div class="w-1/2">
-                <h3 class="text-md font-[600] text-white">{{ item.product.title }}</h3>
+                <h3 class="text-md font-[600] text-black">{{ item.product.title }}</h3>
                 <p class="text-xs text-gray-400 my-1">{{ item.variant.title }}</p>
 
                 <div class="w-[120px] flex items-center justify-center gap-2 text-[14px] font-[600] border">
@@ -37,7 +37,7 @@
               </div>
 
               <div class="me-4 mt-4">
-                <p class="text-[14px] mb-6 font-[600] text-white text-center">{{ item.final_line_price | money }}</p>
+                <p class="text-[14px] mb-6 font-[600] text-black text-center">{{ item.final_line_price | money }}</p>
 
                 <a href="{{ item.url_to_remove }}" class="bg-red-500 py-1 px-2 text-black rounded-full text-center">
                   <i class="fa fa-trash" aria-hidden="true"></i>
@@ -47,19 +47,20 @@
           </div>
         {% endfor %}
       </div>
-    {% endif %}
+      <div>
+        <p class="text-md  font-[400] text-white ">Discounts: {{ cart.total_discount | money }}</p>
+        <p class="text-md font-[400] text-white my-2">Total Price: {{ cart.total_price | money }}</p>
+        <button
+          class="w-full py-2 mt-4 bg-[#FFD700] text-black text-lg font-[600] rounded"
+          type="submit"
+          name="checkout">Checkout</button>
+      </div>
+    </form>
+    <button onclick="handleCartClose()" class="absolute top-0 right-1 text-[30px] text-red-500 rounded-full">
+      <i class="fa fa-times-circle" aria-hidden="true"></i>
+    </button>
+  {% endif %}
 
-    <div>
-      <p class="text-md  font-[400] text-white ">Discounts: {{ cart.total_discount | money }}</p>
-      <p class="text-md font-[400] text-white my-2">Total Price: {{ cart.total_price | money }}</p>
-      <button
-        class="w-full py-2 mt-4 bg-[#FFD700] text-black text-lg font-[600] rounded"
-        type="submit"
-        name="checkout">Checkout</button>
-    </div>
-  </form>
 
-  <button onclick="handleCartClose()" class="absolute top-0 right-1 text-[30px] text-white rounded-full">
-    <i class="fa fa-times-circle" aria-hidden="true"></i>
-  </button>
+
 </div>

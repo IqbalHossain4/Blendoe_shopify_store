@@ -1,3 +1,26 @@
+// JavaScript to show/hide the search box and cancel icon
+const searchIcon = document.getElementById('search-icon');
+const searchForm = document.getElementById('search-form');
+const cancelIcon = document.getElementById('cancel-icon');
+
+searchIcon.addEventListener('click', () => {
+  if (searchForm.style.display === 'none' || searchForm.style.display === '') {
+    searchIcon.style.display = 'none';
+    searchForm.style.display = 'block';
+    cancelIcon.style.display = 'block';
+  } else {
+    searchForm.style.display = 'none';
+    cancelIcon.style.display = 'none';
+  }
+});
+cancelIcon.addEventListener('click', () => {
+  searchForm.style.display = 'none';
+  cancelIcon.style.display = 'none';
+  searchIcon.style.display = 'block';
+});
+
+
+
 const updateCartDrawer=async()=>{
     const res =await fetch('/?section_id=cart-drawer');
     const text=await res.text();
@@ -15,6 +38,7 @@ const handleCart =()=>{
 const handleCartClose=()=>{
     document.querySelector('.cart-drawer').classList.remove("cart-drawer-active")
 }
+
 
 // cart Quantity
 
@@ -77,7 +101,6 @@ let currentQuantity = 1;
   function increaseQuantity(variantId) {
     const quantityInput = document.getElementById(`quantityInput${variantId}`);
     let currentQuantity = parseInt(quantityInput.value);
-
     currentQuantity++;
     quantityInput.value = currentQuantity;
   }
@@ -104,4 +127,24 @@ let currentQuantity = 1;
       updateCartDrawer()
     })
   }
+
+
+
+  // Manage Slider
+
+  const sliderItems = document.querySelectorAll('.slider-item');
+  let currentSlide = 0;
+
+  function showSlide(slideIndex) {
+    sliderItems.forEach((item, index) => {
+      item.style.opacity = (index === slideIndex)
+        ? 1
+        : 0;
+    });
+  }
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % sliderItems.length;
+    showSlide(currentSlide);
+  }
+  setInterval(nextSlide, 5000);
 

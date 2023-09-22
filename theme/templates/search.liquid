@@ -1,26 +1,16 @@
-{% paginate search.results by 6 %}
+<div class="containers my-24 ">
+  {% paginate search.results by 6 %}
 
-  <h2>Here is the Search result</h2>
+    <h2 class="md:text-[22px] font-[600] mb-8">Here is the Search result</h2>
 
-  <div class="grid_1">
-    {% for product in search.results %}
-      <div class="containers">
-
-        <div style="height:250px;">
-          <img src="{{ product.featured_image | image_url}}" />
-        </div>
-        <h4>{{ product.title }}</h4>
-        <p>{{ product.price | money }}</p>
-
-        <a href="{{ product.url }}">
-          <button class="btn">View</button>
-        </a>
-
-      </div>
-      {{ item.content | highlight: search.terms }}
-    {% endfor %}
-  </div>
+    <div class="grid_1">
+      {% for product in search.results %}
+        {% render 'product-item', product: product %}
+        {{ item.content | highlight: search.terms }}
+      {% endfor %}
+    </div>
 
 
-  {{ paginate | default_pagination }}
-{% endpaginate %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div>

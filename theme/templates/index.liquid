@@ -1,16 +1,29 @@
-{% paginate collections['productCollection'].products by 6 %}
+<div>
+  <div>
+    {% section 'image-slider' %}
+    {% section 'best-product' %}
+    {% section 'offer-box' %}
+    {% section 'our-collection' %}
+  </div>
 
   <div class="containers my-24">
-    <h2 class="md:text-[22px] font-[600] mb-8">{{ collections['productCollection'].title }}</h2>
+    {% paginate collections['productCollection'].products by 6 %}
+      <h2 class="md:text-[22px] text-[#1E2D7D] font-[600] mb-8">Featured collection</h2>
+      <div class="grid_1">
+        {% for product in collections['productCollection'].products %}
 
-    <div class="grid_1">
-      {% for product in collections['productCollection'].products %}
-
-        {% render 'product-item', product: product %}
-      {% endfor %}
-    </div>
-    <div class="w-full text-center pagination">
-      {{ paginate | default_pagination }}
-    </div>
+          {% render 'product-item', product: product %}
+        {% endfor %}
+      </div>
+      <div class="w-full text-center pagination">
+        {{ paginate | default_pagination }}
+      </div>
+    {% endpaginate %}
   </div>
-{% endpaginate %}
+
+  <div>
+    {% section 'categories' %}
+    {% section 'About-Store' %}
+    {% section 'Our-Store' %}
+  </div>
+</div>
